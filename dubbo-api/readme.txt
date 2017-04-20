@@ -23,4 +23,4 @@ TestRegistryService 接口 以jar包引入 使用maven方便消费者和 提供�
 
 暴漏的接口在spRedis中
 
-使用maven管理 方便 多个项目进行引用
+使用maven管理 方便 多个项目进行引用11111
