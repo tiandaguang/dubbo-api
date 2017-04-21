@@ -11,7 +11,7 @@ http://code.alibabatech.com/schema/dubbo
 http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 	<!-- 搜索spring控件 -->
-	<context:component-scan base-package="com.sys.tianda"></context:component-scan>
+	<context:component-scan base-package="com"></context:component-scan>
 	<!-- 视图页面配置 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -24,15 +24,26 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	</bean>
 	<!-- 要暴露的服务接口 -->
 	<dubbo:service interface="com.sys.cache.TestRegistryService"
-		ref="testRegistryService" />
+		ref="testRegistryServiceImpl" owner="tiandaguang" registry="re_20880" timeout="10000"/>
+
+	<dubbo:service interface="com.alibaba.bar.BarService"
+		ref="barServiceImpl" owner="tiandaguang" registry="re_30880"  timeout="10000"/>
+	<dubbo:service interface="com.alibaba.foo.FooService"
+		ref="fooServiceImpl" owner="tiandaguang" registry="re_40880"  timeout="10000"/>
 
 	<!-- 提供方应用名称信息，这个相当于起一个名字，我们dubbo管理页面比较清晰是哪个应用暴露出来的 -->
 	<dubbo:application name="dubbo_provider" />
 
 	<!-- 使用multicast广播注册中心暴露服务地址 - -->
-	<dubbo:registry address="zookeeper://192.168.20.110:2181"
-		check="false" subscribe="false" register="" />
-	<!-- 用dubbo协议在20880端口暴露服务 -->
-	<dubbo:protocol name="dubbo" port="20880" />
+	<dubbo:registry id="re_20880" address="zookeeper://192.168.20.110:2181"
+		check="true" subscribe="false" protocol="dubbo"/>
+	<dubbo:registry id="re_30880" address="zookeeper://192.168.20.110:2181"
+		check="true" subscribe="false" protocol="dubbo1"/>
+	<dubbo:registry id="re_40880" address="zookeeper://192.168.20.110:2181"
+		check="true" subscribe="false" protocol="dubbo2"  />
+	<!--   用dubbo协议在20880端口暴露服务 等于上面的protocol="dubbo" port="20880"--> 
+	<dubbo:protocol id="dubbo" name="dubbo" port="20880" accepts="1000"/>
+	<dubbo:protocol id="dubbo1" name="dubbo" port="30880" accepts="1000"/>
+	<dubbo:protocol id="dubbo2" name="dubbo" port="40880" accepts="1000"/>
 
 </beans>
