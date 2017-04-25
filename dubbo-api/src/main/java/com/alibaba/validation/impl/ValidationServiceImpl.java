@@ -16,7 +16,7 @@ public class ValidationServiceImpl implements ValidationService {
 		System.out.println("ValidationServiceImpl ----------->update");
 	}
 
-	public void delete(long id, String operator) {
+	public void delete(ValidationParameter parameter) {
 		System.out.println("ValidationServiceImpl ----------->delete");
 	}
 
