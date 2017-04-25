@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
 	xsi:schemaLocation="
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -10,40 +10,33 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://code.alibabatech.com/schema/dubbo 
 http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-	<!-- 搜索spring控件 -->
-	<context:component-scan base-package="com"></context:component-scan>
-	<!-- 视图页面配置 -->
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/views/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
-	<!-- 要暴露的服务接口 -->
-	<dubbo:service interface="com.sys.cache.TestRegistryService"
-		ref="testRegistryServiceImpl" owner="tiandaguang" registry="re_20880" timeout="10000"/>
-
-	<dubbo:service interface="com.alibaba.bar.BarService"
-		ref="barServiceImpl" owner="tiandaguang" registry="re_30880"  timeout="10000"/>
-	<dubbo:service interface="com.alibaba.foo.FooService"
-		ref="fooServiceImpl" owner="tiandaguang" registry="re_40880"  timeout="10000"/>
-
+	<!-- 搜索spring控件 <context:component-scan base-package="com.alibaba"/> <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="prefix"> <value>/WEB-INF/views/</value> </property> <property name="suffix"> <value>.jsp</value> </property> 
+		</bean> -->
 	<!-- 提供方应用名称信息，这个相当于起一个名字，我们dubbo管理页面比较清晰是哪个应用暴露出来的 -->
 	<dubbo:application name="dubbo_provider" />
-
 	<!-- 使用multicast广播注册中心暴露服务地址 - -->
-	<dubbo:registry id="re_20880" address="zookeeper://192.168.20.110:2181"
-		check="true" subscribe="false" protocol="dubbo"/>
-	<dubbo:registry id="re_30880" address="zookeeper://192.168.20.110:2181"
-		check="true" subscribe="false" protocol="dubbo1"/>
-	<dubbo:registry id="re_40880" address="zookeeper://192.168.20.110:2181"
-		check="true" subscribe="false" protocol="dubbo2"  />
-	<!--   用dubbo协议在20880端口暴露服务 等于上面的protocol="dubbo" port="20880"--> 
-	<dubbo:protocol id="dubbo" name="dubbo" port="20880" accepts="1000"/>
-	<dubbo:protocol id="dubbo1" name="dubbo" port="30880" accepts="1000"/>
-	<dubbo:protocol id="dubbo2" name="dubbo" port="40880" accepts="1000"/>
+	<dubbo:registry id="re_20880" address="zookeeper://192.168.20.110:2181" check="true" subscribe="false"
+		protocol="dubbo" />
+	<!-- 用dubbo协议在20880端口暴露服务 等于上面的protocol="dubbo" port="20880" -->
+	<dubbo:protocol id="dubbo" name="dubbo" port="20880" accepts="1000" />
+
+
+	<!-- 要暴露的服务接口 -->
+	<bean id="testRegistryServiceImpl" class="com.alibaba.registry.impl.TestRegistryServiceImpl"></bean>
+	<bean id="barServiceImpl" class="com.alibaba.bar.impl.BarServiceImpl"></bean>
+	<bean id="fooServiceImpl" class="com.alibaba.foo.impl.FooServiceImpl"></bean>
+	<bean id="validationServiceImpl" class="com.alibaba.validation.impl.ValidationServiceImpl"></bean>
+	
+	
+	<dubbo:service interface="com.alibaba.registry.TestRegistryService" ref="testRegistryServiceImpl"
+		registry="re_20880" timeout="10000" />
+	<dubbo:service interface="com.alibaba.bar.BarService" ref="barServiceImpl" registry="re_20880" timeout="10000" />
+	<dubbo:service interface="com.alibaba.foo.FooService" ref="fooServiceImpl" registry="re_20880" timeout="10000" />
+	<!-- 参数验证 -->
+	<dubbo:service interface="com.alibaba.validation.ValidationService" ref="validationServiceImpl"
+		validation="true" />
+	<!-- 参数验证 -->
+
 
 </beans>
