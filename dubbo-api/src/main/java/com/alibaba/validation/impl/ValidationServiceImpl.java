@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.validation.ValidationParameter;
 import com.alibaba.validation.ValidationService;
 
-@Service("validationServiceImpl")
+@Service("validationService")
 public class ValidationServiceImpl implements ValidationService {
 
 	public void save(ValidationParameter parameter) {

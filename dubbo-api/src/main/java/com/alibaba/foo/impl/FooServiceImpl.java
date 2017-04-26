@@ -3,7 +3,7 @@ package com.alibaba.foo.impl;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.foo.FooService;
-          
+
 @Service("fooServiceImpl")
 public class FooServiceImpl implements FooService {
 

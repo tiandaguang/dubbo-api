@@ -27,10 +27,10 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	<bean id="barServiceImpl" class="com.alibaba.bar.impl.BarServiceImpl"></bean>
 	<bean id="fooServiceImpl" class="com.alibaba.foo.impl.FooServiceImpl"></bean>
 	<bean id="validationServiceImpl" class="com.alibaba.validation.impl.ValidationServiceImpl"></bean>
-	
-	
+
+
 	<dubbo:service interface="com.alibaba.registry.TestRegistryService" ref="testRegistryServiceImpl"
-		registry="re_20880" timeout="10000" />
+		registry="re_20880" />
 	<dubbo:service interface="com.alibaba.bar.BarService" ref="barServiceImpl" registry="re_20880" timeout="10000" />
 	<dubbo:service interface="com.alibaba.foo.FooService" ref="fooServiceImpl" registry="re_20880" timeout="10000" />
 	<!-- 参数验证 -->
@@ -38,5 +38,16 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 		validation="true" />
 	<!-- 参数验证 -->
 
+
+	<!-- 参数回调 -->
+	
+	<bean id="callbackService" class="com.alibaba.call.impl.CallbackServiceImpl" />
+	<dubbo:service interface="com.alibaba.call.CallbackService" ref="callbackService" connections="1" callbacks="1000">
+	    <dubbo:method name="addListener">
+	        <dubbo:argument index="1" callback="true"/>
+	        <!--也可以通过指定类型的方式-->
+	        <!--<dubbo:argument type="com.demo.CallbackListener" callback="true" />-->
+	    </dubbo:method>
+	</dubbo:service>
 
 </beans>
