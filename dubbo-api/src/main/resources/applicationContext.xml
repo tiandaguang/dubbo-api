@@ -40,14 +40,18 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 
 	<!-- 参数回调 -->
-	
+
 	<bean id="callbackService" class="com.alibaba.call.impl.CallbackServiceImpl" />
-	<dubbo:service interface="com.alibaba.call.CallbackService" ref="callbackService" connections="1" callbacks="1000">
-	    <dubbo:method name="addListener">
-	        <dubbo:argument index="1" callback="true"/>
-	        <!--也可以通过指定类型的方式-->
-	        <!--<dubbo:argument type="com.demo.CallbackListener" callback="true" />-->
-	    </dubbo:method>
+	<dubbo:service interface="com.alibaba.call.CallbackService" ref="callbackService" connections="1"
+		callbacks="1000">
+		<dubbo:method name="addListener">
+			<dubbo:argument index="1" callback="true" />
+			<!--也可以通过指定类型的方式 -->
+			<!--<dubbo:argument type="com.demo.CallbackListener" callback="true" /> -->
+		</dubbo:method>
 	</dubbo:service>
 
+	<!-- 事件通知 -->
+	<bean id="demoService" class="com.alibaba.notice.impl.IDemoServiceImpl" />
+	<dubbo:service interface="com.alibaba.notice.IDemoService" ref="demoService" version="1.0.0" group="cn" />
 </beans>
