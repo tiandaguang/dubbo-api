@@ -7,7 +7,6 @@ import com.alibaba.bar.BarService;
 @Service("barServiceImpl")
 public class BarServiceImpl implements BarService {
 
-	@Override
 	public String findBar() {
 
 		try {
